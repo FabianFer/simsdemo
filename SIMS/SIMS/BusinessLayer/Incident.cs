@@ -105,14 +105,14 @@ namespace SIMS
             }
         }
 
-        public string Escalate(string resource_id){
+        public void Escalate(string resource_id){
 
             RestClient client = new RestClient(ESCALATEURL + "/?resourceid=" + resource_id + "&zone=europe-west1-d");
             Console.WriteLine(ESCALATEURL + "?resourceid=" + resource_id);
             RestRequest request = new RestRequest("", Method.Get);
             RestResponse response = client.Execute(request);
             Console.WriteLine("Response from function:" + response.StatusCode);
-            return response.Content;
+
         }
 
 
