@@ -1,7 +1,6 @@
 ﻿@page "/incidentedit"
 @using Microsoft.AspNetCore.Http.Extensions
 @using Microsoft.AspNetCore.WebUtilities
-// @inject IJSRuntime JS
 @rendermode InteractiveServer
 @attribute [StreamRendering]
 @inject NavigationManager NavManager
@@ -100,9 +99,10 @@
             NavManager.NavigateTo("incidents");
 
         }
-        else{
+    //   else{
+            
             //JS.InvokeVoidAsync("alert", "Something went wrong. Please try again");
-        }
+        //   }
 
 
 
