@@ -103,14 +103,14 @@
         
         if(response == "done"){
 
-            JS.InvokeVoidAsync("alert", "Incident escalated. Instance stopped.");
+            await JS.InvokeVoidAsync("alert", "Incident escalated. Instance stopped.");
             incident.Save();
             NavManager.NavigateTo("incidents");
 
         }
        else{
             
-           JS.InvokeVoidAsync("alert", "Something went wrong. Please try again");
+           await JS.InvokeVoidAsync("alert", "Something went wrong. Please try again");
        }
         
 
