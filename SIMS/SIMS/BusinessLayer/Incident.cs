@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using RestSharp;
 
 namespace SIMS
 {
@@ -12,6 +13,8 @@ namespace SIMS
         public string Title { get; set; } = "";
         public int Incident_type { get; set; } = 1;
         public string Resource_id { get; set; } = "";
+
+        static string ESCALATEURL = Environment.GetEnvironmentVariable("ESCALATE_API") ?? "https://localhost:8888";
 
         public Incident() { }
 
@@ -101,5 +104,19 @@ namespace SIMS
                 db.Close();
             }
         }
+
+        public void Escalate(string resource_id){
+
+            RestClient client = new RestClient(ESCALATEURL + "?resourceid=" + resource_id);
+            Console.WriteLine(ESCALATEURL + "?resourceid=" + resource_id);
+            RestRequest request = new RestRequest("", Method.Get);
+            RestResponse response = client.Execute(request);
+            Console.WriteLine("Response from function:" + response.StatusCode);
+
+        }
+
+
+
+
     }
 }

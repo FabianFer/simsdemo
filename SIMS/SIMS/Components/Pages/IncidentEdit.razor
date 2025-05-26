@@ -89,6 +89,7 @@
 
     private void cmdEscalate_Clicked()
     {
-        escalateMessage = "Sorry, not implemented";
+        incident.Escalate(incident.resourceid);
+        NavManager.NavigateTo("incidents");
     }
 }
