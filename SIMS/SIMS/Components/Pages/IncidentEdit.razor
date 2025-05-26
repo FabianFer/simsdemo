@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Http.Extensions
 @using Microsoft.AspNetCore.WebUtilities
 @rendermode InteractiveServer
+@inject IJSRuntime JS
 @attribute [StreamRendering]
 @inject NavigationManager NavManager
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
@@ -94,15 +95,15 @@
 
         if(response == "done"){
 
-            //JS.InvokeVoidAsync("alert", "Incident escalated. Instance stopped.");
+            JS.InvokeVoidAsync("alert", "Incident escalated. Instance stopped.");
             incident.Save();
             NavManager.NavigateTo("incidents");
 
         }
-    //   else{
+       else{
             
-            //JS.InvokeVoidAsync("alert", "Something went wrong. Please try again");
-        //   }
+           JS.InvokeVoidAsync("alert", "Something went wrong. Please try again");
+       }
 
 
 
