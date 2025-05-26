@@ -10,6 +10,7 @@
 
 <PageTitle>Edit Incident</PageTitle>
 
+
 <h1>Incident</h1>
 
 <div style="max-width: 500px; margin-top:20px">
@@ -53,9 +54,15 @@
 
 </div>
 
+@if (IsLoading)
+{
+    <span class="spinner"></span>
+}
+
 
 @code {
     private int id = 0;
+    bool IsLoading = false;
 
     Incident incident = new Incident();
     string[] incidenttypeArray { get; set; } = new[] { "Ticket", "Issue", "Informational", "Problem" };
@@ -88,11 +95,12 @@
         NavManager.NavigateTo("incidents");
     }
 
-    private void cmdEscalate_Clicked()
-    {
-        string response = "";
-        response = incident.Escalate(incident.Resource_id);
-
+    private async Task cmdEscalate_Clicked()
+    {        
+        IsLoading = true;
+        string response = await incident.EscalateAsync(incident.Resource_id);
+        IsLoading = false;
+        
         if(response == "done"){
 
             JS.InvokeVoidAsync("alert", "Incident escalated. Instance stopped.");
@@ -104,6 +112,7 @@
             
            JS.InvokeVoidAsync("alert", "Something went wrong. Please try again");
        }
+        
 
 
 

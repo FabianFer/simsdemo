@@ -110,6 +110,11 @@ namespace SIMS
             RestClient client = new RestClient(ESCALATEURL + "/?resourceid=" + resource_id + "&zone=europe-west1-d");
             RestRequest request = new RestRequest("", Method.Get);
             RestResponse response = await client.ExecuteAsync(request);
+            if (response.Content is null)
+            {
+                response.Content = "something went wrong";
+            }
+
             return response.Content;
         }
 
