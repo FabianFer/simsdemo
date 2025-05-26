@@ -1,47 +1,68 @@
-import functions_framework
-import json
 import os
-import discord
+import requests
+import functions_framework  # GCP Functions Framework
+
 import asyncio
+from google.cloud import compute
+
+import datetime
 
 
-def send_discord_message(message_content, channel_id, bot_token):
-    class MyClient(discord.Client):
-        async def on_ready(self):
-            print(f'Logged in as {self.user} (ID: {self.user.id})')
-            channel = self.get_channel(channel_id)
-            if channel:
-                await channel.send(message_content) 
-                print("Message sent!")
-            else:
-                print("Could not find the channel.")
-            await self.close()
+async def stop_instance(project_id, zone, instance_name):
+    """Stops a Compute Engine instance."""
+    instances_client = compute.InstancesClient()
+    try:
+        request = compute.StopInstanceRequest()
+        request.project = project_id
+        request.zone = zone
+        request.instance = instance_name
 
-    intents = discord.Intents.default()
-    client = MyClient(intents=intents)
-    client.run(bot_token)
+        operation = instances_client.stop(request=request)
+        print(f"Stopping instance {instance_name}...")
 
-def escalation_notify(request):
+        # Wait for the operation to complete (optional but recommended)
+        try:
+            operation.result()  # Wait synchronously
+            print(f"Instance {instance_name} stopped successfully.")
+            return True
+        except Exception as e:
+            print(f"Error waiting for operation: {e}")
+            return False
+
+    except Exception as e:
+        print(f"Error stopping instance: {e}")
+        return False
+
+
+def send_discord(request):
     urlparam = request.args.get('resourceid')
     bot_token = os.environ['BOT_TOKEN']
-    channel_id = os.environ['CHANNEL_ID']
-    message_content = f"The instance with resource-id {urlparam} was stopped"
-    result = send_discord_message(message_content, channel_id, bot_token)
-    return result, 200
+    channel_id_string = os.environ['CHANNEL_ID']
+    channel_id = int(channel_id_string)
+    message_content = f"The instance with resource-id {urlparam} was stopped at {datetime.datetime.now()}, because of an escalation."
+
+    url = f"https://discord.com/api/v9/channels/{channel_id}/messages"
+
+    Headers = {"Authorization": f"Bot {bot_token}", "User-Agent": "DiscordBot (sims, v0.1)"}
+
+    payload = {
+        "content": message_content
+    }
+
+    response = requests.post(url, payload, headers=Headers, timeout=5)
+    response.raise_for_status()
 
 
+@functions_framework.http
+def escalation_notify(request):
+    instance_name = request.args.get('resourceid')
+    zone = request.args.get('zone')
+    project_id = "os-ccs"
 
+    stopping_result = asyncio.run(stop_instance(project_id, zone, instance_name))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    if stopping_result:
+        send_discord(request)
+        return 'done'
+    else:
+        return 'error'
