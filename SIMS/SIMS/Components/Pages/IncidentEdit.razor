@@ -1,7 +1,7 @@
 ﻿@page "/incidentedit"
 @using Microsoft.AspNetCore.Http.Extensions
 @using Microsoft.AspNetCore.WebUtilities
-@inject IJSRuntime JS
+// @inject IJSRuntime JS
 @rendermode InteractiveServer
 @attribute [StreamRendering]
 @inject NavigationManager NavManager
@@ -95,13 +95,13 @@
 
         if(response == "done"){
 
-            JS.InvokeVoidAsync("alert", "Incident escalated. Instance stopped.");
+            //JS.InvokeVoidAsync("alert", "Incident escalated. Instance stopped.");
             incident.Save();
             NavManager.NavigateTo("incidents");
 
         }
         else{
-            JS.InvokeVoidAsync("alert", "Something went wrong. Please try again");
+            //JS.InvokeVoidAsync("alert", "Something went wrong. Please try again");
         }
 
 
