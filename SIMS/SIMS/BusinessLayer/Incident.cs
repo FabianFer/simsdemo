@@ -87,7 +87,7 @@ namespace SIMS
                 }
                 else
                 {
-                    sql += $"update sims.incident set resolved = @resolved, reporter = @reporter, reported_at = @reported_at, resource_id = @resource_id";
+                    sql += $"update sims.incident set resolved = @resolved, reporter = @reporter, reported_at = @reported_at, resource_id = @resource_id, ";
                     sql += $"description = @description, title = @title, incident_type_id = @incident_type_id, resource_id = @resource_id where Incident_id = {Incident_id};";
                 }
                 using (NpgsqlCommand cmd = new NpgsqlCommand(sql, db))

@@ -42,7 +42,16 @@ INSERT INTO sims.incidenttype (name) VALUES
 
 INSERT INTO sims.incident(
 	reporter, reported_at, description, title, incident_type_id, resource_id)
-	VALUES ('Admin', CURRENT_TIMESTAMP, 'The whole internet is down,', 'Internet down', '1','2');
+	VALUES ('Admin', CURRENT_TIMESTAMP, 'The whole internet is down,', 'Internet down', '1','ubuntu-vm');
+
+INSERT INTO sims.incident(
+	reporter, reported_at, description, title, incident_type_id, resource_id)
+	VALUES ('User', CURRENT_TIMESTAMP, 'Apple problems', 'Internet down', '2','mac-vm');
+
+INSERT INTO sims.incident(
+	reporter, reported_at, description, title, incident_type_id, resource_id)
+	VALUES ('Admin', CURRENT_TIMESTAMP, 'AD is down', 'Internet down', '3','windows-vm');
+
 
 INSERT INTO sims.simsuser(
 	IsAdmin, IsActive, Username, PWDHash, LastLogin)
