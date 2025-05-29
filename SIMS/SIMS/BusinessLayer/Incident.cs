@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using RestSharp;
 
+
 namespace SIMS
 {
     public class Incident : DBBase
