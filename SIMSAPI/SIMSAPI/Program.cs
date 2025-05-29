@@ -1,4 +1,3 @@
-
 namespace SIMSAPI
 {
     public class Program
