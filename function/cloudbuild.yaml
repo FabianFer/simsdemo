@@ -1,11 +1,13 @@
 steps:
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
-      - 'gcloud'
-      - 'functions'
-      - 'deploy'
-      - 'testbuildescalate'
+      - gcloud
+      - functions
+      - deploy
+      - escalation_notify
       - '--region=europe-west1'
-      - '--source=.'
+      - '--source=function/.'
       - '--trigger-http'
       - '--runtime=python313'
+options:
+  logging: CLOUD_LOGGING_ONLY
