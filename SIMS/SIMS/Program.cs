@@ -1,7 +1,6 @@
 using SIMS.Components;
 
 
-
 namespace SIMS
 {
     public class Program
