@@ -7,6 +7,7 @@ from google.cloud import compute
 
 import datetime
 
+# test for cloud build trigger
 
 async def stop_instance(project_id, zone, instance_name):
     """Stops a Compute Engine instance."""
