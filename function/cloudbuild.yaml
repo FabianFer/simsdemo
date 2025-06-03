@@ -4,10 +4,16 @@ steps:
       - gcloud
       - functions
       - deploy
-      - escalation_notify
+      - escalationfunction
       - '--region=europe-west1'
       - '--source=function/.'
       - '--trigger-http'
       - '--runtime=python313'
+      - '--ingress-settings=internal-only'
+      - '--entry-point=escalation_notify'
+      - '--allow-unauthenticated'
+      - '--memory=512MB'
+      - >-
+        --run-service-account=os-ccs-sims-escalation@os-ccs.iam.gserviceaccount.com
 options:
   logging: CLOUD_LOGGING_ONLY
